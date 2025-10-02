@@ -1,8 +1,13 @@
+import os
+import sys
 import pytest
 from selene import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from utils import attach
+
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from utils.attach import add_screenshot, add_logs, add_html, add_video
 
 
 @pytest.fixture(scope='function')
@@ -24,9 +29,9 @@ def setup_browser(request):
     browser.config.driver = driver
     yield browser
 
-    attach.add_screenshot(browser)
-    attach.add_logs(browser)
-    attach.add_html(browser)
-    attach.add_video(browser)
+    add_screenshot(browser)
+    add_logs(browser)
+    add_html(browser)
+    add_video(browser)
 
     browser.quit()
