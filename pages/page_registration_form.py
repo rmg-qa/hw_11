@@ -1,9 +1,8 @@
 import os
-from selene import browser, have
+from selene import have
 from selenium.webdriver import Keys
 from locators.locators_form_registration import LocatorsPageRegistrationForm
 from data.url import URL_FORM_REGISTRATIONS
-
 
 class RegistrationFormMethods:
 

@@ -8,8 +8,17 @@ def add_screenshot(browser):
 
 
 def add_logs(browser):
-    log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
-    allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
+    try:
+        # Пробуем получить логи браузера (работает для Chrome/Chromium)
+        log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
+        allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
+    except Exception as e:
+        # Если метод get_log не доступен, сохраняем сообщение об ошибке
+        error_message = f"Browser logs not available: {str(e)}"
+        allure.attach(error_message, 'browser_logs_error', AttachmentType.TEXT, '.log')
+
+    # log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))  # Еcли оставить код таким, то будет ошибка "AttributeError: 'WebDriver' object has no attribute 'get_log'"
+    # allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
 
 
 def add_html(browser):

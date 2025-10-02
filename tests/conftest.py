@@ -1,17 +1,16 @@
 import pytest
-
+from selene import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selene import Browser, Config
-
 from utils import attach
+
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
-        "browserVersion": "100.0",
+        "browserVersion": "128.0",
         "selenoid:options": {
             "enableVNC": True,
             "enableVideo": True
@@ -22,8 +21,7 @@ def setup_browser(request):
         command_executor=f"https://user1:1234@selenoid.autotests.cloud/wd/hub",
         options=options
     )
-
-    browser = Browser(Config(driver))
+    browser.config.driver = driver
     yield browser
 
     attach.add_screenshot(browser)
