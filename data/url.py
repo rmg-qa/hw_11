@@ -1,0 +1,1 @@
+URL_FORM_REGISTRATIONS = 'https://demoqa.com/automation-practice-form'
