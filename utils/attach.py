@@ -1,5 +1,6 @@
 import allure
 from allure_commons.types import AttachmentType
+from selenium import webdriver
 
 
 def add_screenshot(browser):
@@ -8,17 +9,17 @@ def add_screenshot(browser):
 
 
 def add_logs(browser):
-    try:
-        # Пробуем получить логи браузера (работает для Chrome/Chromium)
-        log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
-        allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
-    except Exception as e:
-        # Если метод get_log не доступен, сохраняем сообщение об ошибке
-        error_message = f"Browser logs not available: {str(e)}"
-        allure.attach(error_message, 'browser_logs_error', AttachmentType.TEXT, '.log')
+    options = webdriver.ChromeOptions()
+    options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
 
-    # log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))  # Еcли оставить код таким, то будет ошибка "AttributeError: 'WebDriver' object has no attribute 'get_log'"
-    # allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
+    driver = webdriver.Chrome(options=options)
+    driver.get("https://demoqa.com/automation-practice-form")
+
+    # Capture browser console logs
+    logs = driver.get_log('browser')
+
+    for entry in logs:
+        print(f"{entry['level']} - {entry['message']}")
 
 
 def add_html(browser):
