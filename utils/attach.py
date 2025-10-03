@@ -13,7 +13,7 @@ def add_logs(browser):
     options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
 
     driver = webdriver.Chrome(options=options)
-    driver.get("https://demoqa.com/automation-practice-form")
+    driver.get('https://demoqa.com/automation-practice-form')
 
     # Capture browser console logs
     logs = driver.get_log('browser')
@@ -21,6 +21,12 @@ def add_logs(browser):
     for entry in logs:
         print(f"{entry['level']} - {entry['message']}")
 
+    # try:
+    #     log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))  # этот вариант не работает
+    #     allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
+    # except Exception as e:
+    #     error_message = f"Browser logs not available: {str(e)}"
+    #     allure.attach(error_message, 'browser_logs_error', AttachmentType.TEXT, '.log')
 
 def add_html(browser):
     html = browser.driver.page_source
